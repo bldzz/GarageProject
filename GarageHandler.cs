@@ -9,13 +9,18 @@ namespace Garage
   
     public class GarageHandler : IHandler
     {
-        private Garage<IVehicle> garage;
+        public Garage<IVehicle> garage;
 
         // Method to create a new garage with the given capacity
         public void CreateGarage(int capacity)
         {
             garage = new Garage<IVehicle>(capacity);
             Console.WriteLine($"Garage created with a capacity of {capacity} vehicles.");
+        }
+
+        public bool IsGarageCreated()
+        {
+            return garage != null;
         }
 
         // Method to park a vehicle into the garage
@@ -33,6 +38,7 @@ namespace Garage
         //    }
         //}
 
+        // Method to park a vehicle into the garage
         public void ParkVehicle(IVehicle vehicle)
         {
             if (garage == null)

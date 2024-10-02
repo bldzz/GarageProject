@@ -97,15 +97,51 @@ namespace Garage
         //}
 
 
+       
+
+
         // Method to park a vehicle
         private void ParkVehicle()
         {
+            // Check if a garage has been created
+            if (!handler.IsGarageCreated())
+            {
+                Console.WriteLine("No garage exists. Please create a garage first.");
+                Console.WriteLine("Enter the capacity for the new garage:");
+                if (int.TryParse(Console.ReadLine(), out int capacity))
+                {
+                    handler.CreateGarage(capacity);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                    return;
+                }
+            }
 
+            // Get and validate the registration number
+            string registrationNumber = null;
+            while (true)
+            {
+                Console.WriteLine("Enter the registration number (format: AAA111 or AAA 111):");
+                registrationNumber = Console.ReadLine();
+
+                if (RegistrationNumberValidator.IsValidRegistrationNumber(registrationNumber))
+                {
+                    break;  // Exit loop if registration number is valid
+                }
+                else
+                {
+                    Console.WriteLine("Invalid registration number format. Please try again.");
+                }
+            }
+
+            // Proceed with parking the vehicle after the garage is created
             Console.WriteLine("Enter the type of vehicle (Car, Motorcycle, Airplane, Bus, Boat):");
             string type = Console.ReadLine()?.ToLower();
 
-            Console.WriteLine("Enter the registration number:");
-            string registrationNumber = Console.ReadLine();
+            //Console.WriteLine("Enter the registration number:");
+            //string registrationNumber = Console.ReadLine();
 
             Console.WriteLine("Enter the color:");
             string color = Console.ReadLine();
@@ -186,10 +222,11 @@ namespace Garage
                 Console.WriteLine($"{type} parked successfully.");
             }
         }
+   
 
 
 
-        private void RemoveVehicle()
+    private void RemoveVehicle()
         {
             Console.WriteLine("Enter registration number to remove:");
             string regNo = Console.ReadLine() ?? string.Empty;

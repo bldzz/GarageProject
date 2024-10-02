@@ -9,6 +9,7 @@ namespace Garage
     public interface IHandler
     {
         void CreateGarage(int capacity);
+        bool IsGarageCreated();
         void ParkVehicle(IVehicle vehicle);
         void RemoveVehicle(string registrationNumber);
         IVehicle[] SearchVehicles(string color, int? numberOfWheels = null);
