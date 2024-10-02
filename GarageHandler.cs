@@ -63,17 +63,24 @@ namespace Garage
         {
             if (garage == null)
             {
-                Console.WriteLine("Garage not created yet. Please create a garage first.");
+                Console.WriteLine("Garage not created yet. Please create a garage first.\n");
+                return;
+            }
+
+            if (!garage.Any())
+            {
+                Console.WriteLine("No vehicles are parked in the garage.");
+                Console.WriteLine("Please add a vehicle to the garage first!\n");
                 return;
             }
 
             if (garage.Remove(registrationNumber))
             {
-                Console.WriteLine($"Vehicle with registration number {registrationNumber} removed from the garage.");
+                Console.WriteLine($"Vehicle with registration number {registrationNumber} removed from the garage!\n");
             }
             else
             {
-                Console.WriteLine($"Vehicle with registration number {registrationNumber} not found.");
+                Console.WriteLine($"Vehicle with registration number {registrationNumber} not found.\n");
             }
         }
 
