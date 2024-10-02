@@ -137,8 +137,26 @@ namespace Garage
             }
 
             // Get vehicle details
-            Console.WriteLine("Enter the color:");
-            string color = Console.ReadLine();
+
+            // List of valid colors
+            string[] validColors = { "red", "blue", "green", "black", "white", "yellow", "gray", "purple", "orange" };
+
+            string color;
+
+            // Loop to keep asking for a valid color until a correct one is entered
+            do
+            {
+                Console.WriteLine("Enter the color: ");
+                color = Console.ReadLine()?.ToLower(); // Convert input to lowercase for easier comparison
+
+                if (!validColors.Contains(color))
+                {
+                    Console.WriteLine("Invalid color! Please enter a valid color (e.g., Red, Blue, Green, Black, White, etc.).");
+                }
+            } while (!validColors.Contains(color)); // Keep looping until valid color is provided
+
+
+
 
             Console.WriteLine("Enter the number of wheels:");
             if (!int.TryParse(Console.ReadLine(), out int numberOfWheels))
