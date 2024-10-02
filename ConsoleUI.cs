@@ -97,7 +97,6 @@ namespace Garage
         //}
 
 
-       
 
 
         // Method to park a vehicle
@@ -119,30 +118,25 @@ namespace Garage
                 }
             }
 
-            // Get and validate the registration number
-            string registrationNumber = null;
-            while (true)
-            {
-                Console.WriteLine("Enter the registration number (format: AAA111 or AAA 111):");
-                registrationNumber = Console.ReadLine();
-
-                if (RegistrationNumberValidator.IsValidRegistrationNumber(registrationNumber))
-                {
-                    break;  // Exit loop if registration number is valid
-                }
-                else
-                {
-                    Console.WriteLine("Invalid registration number format. Please try again.");
-                }
-            }
-
             // Proceed with parking the vehicle after the garage is created
             Console.WriteLine("Enter the type of vehicle (Car, Motorcycle, Airplane, Bus, Boat):");
             string type = Console.ReadLine()?.ToLower();
 
-            //Console.WriteLine("Enter the registration number:");
-            //string registrationNumber = Console.ReadLine();
+            // Registration number validation and formatting
+            Console.WriteLine("Enter the registration number:");
+            string registrationNumber = Console.ReadLine();
+            try
+            {
+                // Validate and format the registration number
+                registrationNumber = RegistrationNumberValidator.FormatRegistrationNumber(registrationNumber);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return; // Exit if the registration number is invalid
+            }
 
+            // Get vehicle details
             Console.WriteLine("Enter the color:");
             string color = Console.ReadLine();
 
@@ -158,11 +152,26 @@ namespace Garage
             // Based on vehicle type, ask for additional properties and create the vehicle
             switch (type)
             {
+
                 case "car":
-                    Console.WriteLine("Enter the fuel type (Gasoline/Diesel):");
-                    string fuelType = Console.ReadLine();
+                    string fuelType;
+
+                    // Loop to keep asking for a valid input until a correct fuel type is entered
+                    do
+                    {
+                        Console.WriteLine("Enter the fuel type (Gasoline/Diesel):");
+                        fuelType = Console.ReadLine()?.ToLower(); // Convert input to lowercase for easier comparison
+
+                        if (fuelType != "gasoline" && fuelType != "diesel")
+                        {
+                            Console.WriteLine("Invalid fuel type! Please enter either 'Gasoline' or 'Diesel'.");
+                        }
+                    } while (fuelType != "gasoline" && fuelType != "diesel"); // Keep looping until valid input is provided
+
+                    // Proceed with creating the car once a valid fuel type is provided
                     vehicle = new Car(registrationNumber, color, numberOfWheels, fuelType);
                     break;
+
                 case "motorcycle":
                     Console.WriteLine("Enter the cylinder volume:");
                     if (int.TryParse(Console.ReadLine(), out int cylinderVolume))
@@ -216,17 +225,19 @@ namespace Garage
                     return;
             }
 
+            // Attempt to park the vehicle
             if (vehicle != null)
             {
                 handler.ParkVehicle(vehicle);
                 Console.WriteLine($"{type} parked successfully.");
             }
         }
-   
 
 
 
-    private void RemoveVehicle()
+
+
+        private void RemoveVehicle()
         {
             Console.WriteLine("Enter registration number to remove:");
             string regNo = Console.ReadLine() ?? string.Empty;

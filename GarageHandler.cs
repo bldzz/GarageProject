@@ -11,6 +11,7 @@ namespace Garage
     {
         public Garage<IVehicle> garage;
 
+
         // Method to create a new garage with the given capacity
         public void CreateGarage(int capacity)
         {
@@ -101,10 +102,20 @@ namespace Garage
                 return;
             }
 
+            // Check if there are any vehicles in the garage
+            if (!garage.Any())
+            {
+                Console.WriteLine("No vehicles are parked in the garage.");
+                Console.WriteLine("Please add a vehicle to the garage first.");
+                return;
+            }
+
+
             Console.WriteLine("Vehicles currently in the garage:");
             foreach (var vehicle in garage)
             {
-                Console.WriteLine(vehicle);
+                Console.WriteLine(vehicle.ToString().ToUpper());
+               
             }
         }
 
