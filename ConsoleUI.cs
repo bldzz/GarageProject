@@ -247,7 +247,7 @@ namespace Garage
             if (vehicle != null)
             {
                 handler.ParkVehicle(vehicle);
-                Console.WriteLine($"{type} parked successfully.");
+                Console.WriteLine($"{type} parked successfully!\n");
             }
         }
 
@@ -264,25 +264,35 @@ namespace Garage
 
         private void SearchVehicle()
         {
-            Console.WriteLine("Enter color to search:");
-            string color = Console.ReadLine() ?? string.Empty;
-            Console.WriteLine("Enter number of wheels to search (optional):");
-            if (int.TryParse(Console.ReadLine(), out int wheels))
+
+            if (!handler.IsGarageCreated())
             {
-                var result = handler.SearchVehicles(color, wheels);
-                foreach (var vehicle in result)
-                {
-                    Console.WriteLine(vehicle);
-                }
+                Console.WriteLine("No garage exists. Please create a garage first!\n");
             }
-            else
-            {
-                var result = handler.SearchVehicles(color);
-                foreach (var vehicle in result)
+            else { 
+            
+                    Console.WriteLine("Enter color to search:");
+                    string color = Console.ReadLine() ?? string.Empty;
+                    Console.WriteLine("Enter number of wheels to search (optional):");
+                if (int.TryParse(Console.ReadLine(), out int wheels))
                 {
-                    Console.WriteLine(vehicle);
+                    var result = handler.SearchVehicles(color, wheels);
+                    foreach (var vehicle in result)
+                    {
+                        Console.WriteLine(vehicle);
+                    }
                 }
+                else
+                {
+                    var result = handler.SearchVehicles(color);
+                    foreach (var vehicle in result)
+                    {
+                        Console.WriteLine(vehicle);
+                    }
+                }
+            
             }
+
         }
     }
 
